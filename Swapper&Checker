@@ -1,0 +1,148 @@
+*MainActivity.java
+package com.example.rosalesswappe_checker;
+
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Button;
+import android.content.Intent;
+
+public class MainActivity extends AppCompatActivity {
+
+    private EditText editText1, editText2;
+    private Button buttonSwap, buttonCompare;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        editText1 = findViewById(R.id.editText1);
+        editText2 = findViewById(R.id.editText2);
+        buttonSwap = findViewById(R.id.buttonSwap);
+        buttonCompare = findViewById(R.id.buttonCompare);
+
+        buttonSwap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text1 = editText1.getText().toString();
+                String text2 = editText2.getText().toString();
+
+                editText1.setText(text2);
+                editText2.setText(text1);
+            }
+        });
+
+        buttonCompare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text1 = editText1.getText().toString();
+                String text2 = editText2.getText().toString();
+
+                Intent intent = new Intent(MainActivity.this, RosalesResult.class);
+                intent.putExtra("text1", text1);
+                intent.putExtra("text2", text2);
+                startActivity(intent);
+            }
+        });
+    }
+}
+
+*activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter text" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Enter text" />
+
+    <Button
+        android:id="@+id/buttonSwap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Swap" />
+
+    <Button
+        android:id="@+id/buttonCompare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Compare"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>
+
+*RosalesResult.java
+package com.example.rosalesswappe_checker;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.TextView;
+import android.widget.Button;
+import android.content.Intent;
+import android.view.View;
+
+public class RosalesResult extends AppCompatActivity {
+
+    private TextView textViewResult;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_rosales_result);
+
+        textViewResult = findViewById(R.id.textViewResult);
+        Button buttonCompare = findViewById(R.id.buttonCompare);
+
+        Intent intent = getIntent();
+        String text1 = intent.getStringExtra("text1");
+        String text2 = intent.getStringExtra("text2");
+
+        if (text1.equals(text2)) {
+            textViewResult.setText("SAME");
+        } else {
+            textViewResult.setText("NOT THE SAME");
+        }
+
+        buttonCompare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Perform any additional action if needed
+            }
+        });
+    }
+}
+
+*activity_rosales_result.xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RosalesResult"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textViewResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:padding="16dp" />
+
+</LinearLayout>
+
